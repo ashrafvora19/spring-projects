@@ -8,6 +8,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
@@ -23,6 +25,7 @@ import lombok.Setter;
 public class Wizard implements Serializable {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
 	private String name;
