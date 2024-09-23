@@ -42,7 +42,11 @@ public class ArtifactService {
         }
         String saltStr = salt.toString();
         return saltStr;
-
     }
+	
+	public void deleteArtifactsByWizardId(Long wizardId) {
+		artifactRepository.deleteByOwnerId(wizardId);
+	}
+	
 
 }

@@ -16,6 +16,7 @@ public class WizardService {
 	
 	private final WizardRepository wizardRepository;
 	private final WizardMapper wizardMapper;
+	private final ArtifactService artifactService;
 	
 	public Wizard findById(Long id) {
 		return wizardRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Wizard not found."));
@@ -23,6 +24,11 @@ public class WizardService {
 	
 	public Wizard addWizard(WizardDtoRecord wizardDto) {
 		return wizardRepository.save(wizardMapper.toEntity(wizardDto));
+	}
+
+	public void deleteWizardById(Long wizardId) {
+		artifactService.deleteArtifactsByWizardId(wizardId);
+		wizardRepository.deleteById(wizardId);
 	}
 
 }

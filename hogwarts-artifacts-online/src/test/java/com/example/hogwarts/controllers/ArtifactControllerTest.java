@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -38,6 +39,9 @@ class ArtifactControllerTest {
 	
 	@InjectMocks
 	ArtifactControllerTest artifactController;
+	
+	@Value("${api.endpoint.base-url}")
+	String baseUrl;
 	
 	List<Artifact> artifacts;
 	
@@ -99,7 +103,7 @@ class ArtifactControllerTest {
 	void testFindArtifactByIdSuccess() throws Exception {
 		BDDMockito.given(artifactService.findById("12345")).willReturn(artifacts.get(0));
 		
-		this.mockMvc.perform(get("/api/v1/artifacts/12345").accept(MediaType.APPLICATION_JSON))
+		this.mockMvc.perform(get(baseUrl+"/artifacts/12345").accept(MediaType.APPLICATION_JSON))
 			.andExpect(jsonPath("$.flag").value(true))
 			.andExpect(jsonPath("$.code").value(HttpStatus.OK.value()))
 			.andExpect(jsonPath("$.message").value("Success"))
@@ -112,7 +116,7 @@ class ArtifactControllerTest {
 	void testFindArtifactByIdNotFound() throws Exception {
 		BDDMockito.given(artifactService.findById("12345")).willThrow(new ResourceNotFoundException("Artifact not found."));
 		
-		this.mockMvc.perform(get("/api/v1/artifacts/12345").accept(MediaType.APPLICATION_JSON))
+		this.mockMvc.perform(get(baseUrl+"/artifacts/12345").accept(MediaType.APPLICATION_JSON))
 			.andExpect(jsonPath("$.flag").value(false))
 			.andExpect(jsonPath("$.code").value(HttpStatus.NOT_FOUND.value()))
 			.andExpect(jsonPath("$.message").value("Artifact not found."))

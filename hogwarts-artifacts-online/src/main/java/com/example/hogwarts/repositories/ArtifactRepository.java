@@ -8,4 +8,6 @@ import com.example.hogwarts.models.Artifact;
 @Repository
 public interface ArtifactRepository extends JpaRepository<Artifact, String> {
 
+	void deleteByOwnerId(Long wizardId);
+
 }
